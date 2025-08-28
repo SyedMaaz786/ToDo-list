@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <title>Edit Task</title>
+  </head>
+  <body>
+    <div class="container my-5">
+      <h2 class="text-center">Edit Task</h2>
+      <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="title">Task Title</label>
+          <input type="text" class="form-control" id="title" name="title" value="{{ task.taskTitle }}" required>
+        </div>
+        <div class="form-group">
+          <label for="desc">Task Description</label>
+          <textarea class="form-control" id="desc" name="desc" rows="3" required>{{ task.taskDesc }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Save Changes</button>
+        <a href="{% url 'tasks' %}" class="btn btn-secondary">Cancel</a>
+      </form>
+    </div>
+  </body>
+</html>

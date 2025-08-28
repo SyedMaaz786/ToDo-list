@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <title>Home - ToDo's list</title>
+
+    <style>
+      body {
+        background: linear-gradient(120deg, #f0f8ff, #e6f7ff);
+      }
+
+      /* Hero Section */
+      .hero {
+        padding: 80px 20px;
+        text-align: center;
+        border-radius: 20px;
+        margin-bottom: 40px;
+        background: linear-gradient(135deg, #ffffff, #d9eaff);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      }
+
+      .hero h1 {
+        font-size: 4rem;
+        font-weight: 900;
+        background: linear-gradient(90deg, #ff6a00, #ffcc00, #ff6a00);
+        background-size: 200% 100%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shimmer 3s linear infinite;
+        text-shadow: 3px 3px 10px rgba(0,0,0,0.2);
+      }
+
+      @keyframes shimmer {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+      }
+
+      /* Task Cards */
+      .task-card {
+        border-radius: 15px;
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      .task-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 25px rgba(0,0,0,0.2);
+      }
+
+      .status-completed {
+        color: #28a745;
+        font-weight: 700;
+      }
+
+      .status-pending {
+        color: #ffc107;
+        font-weight: 700;
+      }
+
+      .task-form-card {
+        border-radius: 20px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        padding: 30px;
+        background-color: #ffffff;
+      }
+
+      footer {
+        background: #343a40;
+        color: #fff;
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="/">ToDo</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="/tasks">Tasks</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container my-5">
+      <div class="hero">
+        <h1>Welcome To Your ToDo List</h1>
+        <p class="lead mt-3">Stay organized, track tasks, and boost your productivity!</p>
+      </div>
+
+      <div class="row justify-content-center">
+        {% for task in tasks|slice:":4" %}
+        <div class="col-md-6 mb-3">
+          <div class="card shadow-sm p-3 text-center task-card">
+            <h5 class="{% if task.status %}status-completed{% else %}status-pending{% endif %}">
+              {{ task.taskTitle }}
+            </h5>
+            <p>{{ task.taskDesc }}</p>
+            <small>Status: 
+              {% if task.status %}
+                <span class="status-completed">Completed &#10003;</span>
+              {% else %}
+                <span class="status-pending">Pending</span>
+              {% endif %}
+            </small>
+          </div>
+        </div>
+        {% empty %}
+        <p class="text-center">Stay organized, track tasks, and boost your productivity!</p>
+        {% endfor %}
+      </div>
+    </div>
+
+    {% if success %}
+    <div class="alert alert-warning alert-dismissible fade show mx-3" role="alert">
+      <strong>Success</strong> Your task has been added to the list.
+      <button type="button" class="close" data-dismiss="alert">
+        <span>&times;</span>
+      </button>
+    </div>
+    {% endif %}
+
+    <div class="container my-5">
+      <div class="task-form-card mx-auto" style="max-width:600px;">
+        <h2 class="text-center mb-4">Add a New Task</h2>
+        <form action='/' method='post'>
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="title">Task Title</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="Enter task title" required>
+          </div>
+          <div class="form-group">
+            <label for="desc">Task Description</label>
+            <textarea class="form-control" name="desc" id="desc" rows="5" placeholder="Enter task description" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-success btn-block btn-lg">Add Task</button>
+        </form>
+      </div>
+    </div>
+
+    <footer>
+      <p class="text-center bg-dark text-light fixed-bottom my-0 py-3">
+        Copyright &copy; 2025 | All rights reserved
+      </p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
