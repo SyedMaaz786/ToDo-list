@@ -42,7 +42,6 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',  # Must be at the top
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -116,13 +115,6 @@ STATICFILES_DIRS = [FRONTEND_DIR / 'static']
 
 # Production static files (Render will collect here)
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-
-# Use WhiteNoise for efficient static serving on Render
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-# Respect proxy headers from Render for HTTPS detection
-USE_X_FORWARDED_HOST = True
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # --------------------
 # CORS Configuration
